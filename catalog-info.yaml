@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: dbt-dcp-utilities
+  description: dbt packages for BESTSELLER tech
+  annotations:
+    github.com/project-slug: BESTSELLER/dbt-dcp-utilities
+spec:
+  type: service
+  lifecycle: experimental
+  owner: digital-connectivity-platform
