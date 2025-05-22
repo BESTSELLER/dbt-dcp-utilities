@@ -1,5 +1,5 @@
 name: 'dbt_dcp_utilities'
-version: '1.0.0'
+version: '0.1.0'
 
 target-path: "target"
 macro-paths: ["macros"]
