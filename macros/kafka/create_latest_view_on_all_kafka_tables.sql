@@ -16,13 +16,6 @@
         CREATE OR REPLACE VIEW {{ schema_name }}.{{ view_prefix }}{{ tbl.identifier }}_latest
             COMMENT='Latest state of {{ tbl }}. This view provides the latest registered value for each Kafka key.\n\nThis view was created automatically by the "create_latest_view" macro which was executed automatically using the on-run-start hook.'
         AS
-            SELECT * EXCLUDE row_num
-            FROM (
-                SELECT 
-                    *,
-                    ROW_NUMBER() OVER (PARTITION BY RECORD_METADATA:key ORDER BY RECORD_METADATA:offset DESC) AS row_num
-                FROM {{ tbl }}
-            )
-            WHERE row_num = 1;
+            {{ get_kafka_table_latest_state(tbl) }}
     {% endfor %}
 {% endmacro %}
