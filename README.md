@@ -1,5 +1,7 @@
 This DBT package contains general purpose macros.
 
+⚠️ IMPORTANT NOTE: This is a public repository, do not put any sensitive information here !!!
+
 ## Table of contents
 
 * [How to use](#howto-use)
