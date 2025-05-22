@@ -5,23 +5,6 @@
     dest_schema=none,
     tbl_prefix='STG__')
 %}
-    {#"""
-        Description:
-            Dynamically creates latest views for all Kafka-ingested tables in a given schema.
-            Each view selects the latest record per Kafka key based on the highest offset.
-            This macro is useful for building staging views that represent the most recent state
-            of each entity in a Kafka topic ingestion table.
-
-            To create these views automatically on each run/build, you can invoke this macro with
-            the on_run_start hook in dbt_project.yml.
-
-        Parameters:
-            - domain (str): The domain (e.g., 'DCPA').
-            - env (str, default='DEV'): The environment to use (e.g., 'PROD', 'DEV', 'TEST').
-            - source_schema (str, default='INGEST_KAFKA'): Schema where raw Kafka tables live.
-            - dest_schema (str, default=none): Schema where views should be created.
-            - view_prefix (str, default='STG__'): Prefix to add to each view name.
-    """#}
     {% set source_database = domain ~ '_RAW' ~ ('' if env == 'PROD' or env == '' else '_' ~ env) ~ '_DB'%}
     {% set tbls = dbt_utils.get_relations_by_prefix(schema=source_schema, prefix='', database=source_database) %}
     {% set schema_name = generate_schema_name(dest_schema) %}
