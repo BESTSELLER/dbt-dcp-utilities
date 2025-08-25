@@ -8,5 +8,5 @@
             ROW_NUMBER() OVER (PARTITION BY RECORD_METADATA:key ORDER BY RECORD_METADATA:offset DESC) AS row_num
         FROM {{ input_table }}
     )
-    WHERE row_num = 1;
+    WHERE row_num = 1
 {% endmacro %}
