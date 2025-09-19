@@ -43,6 +43,9 @@ Parameters:
 Calculates the latest state of a single Kafka table. The latest state is defined as
 the highest offset for every key.
 
+Parameters:
+  - `input_table`: The table to calculate the latest state for.
+
 ## DBT-core Github Actions
 
 ### drop_ci_schema
@@ -51,7 +54,3 @@ Drop a schema based on the schema and database parameters. This macro is used st
 Parameters:
   - `schema`: Name of the schema to be dropped recursively.
   - `database`: Name of the database containing the schema (defaults to target.database).
-
-
-Parameters:
-  - `input_table`: The table to calculate the latest state for.
