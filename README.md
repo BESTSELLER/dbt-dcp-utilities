@@ -8,6 +8,8 @@ This DBT package contains general purpose macros.
 * [Kafka](#kafka)
   * [create_latest_view_on_kafka_tables](#create_latest_view_on_kafka_tables)
   * [get_kafka_table_latest_state](#get_kafka_table_latest_state)
+* [DBT-core Github Actions](#DBT-coreGithubActions)
+  * [drop_ci_schema](#drop_ci_schema)
 
 ## How to use
 To use this package, put the following in the `packages.yml` file in your DBT project
@@ -40,6 +42,16 @@ Parameters:
 ###  get_kafka_table_latest_state
 Calculates the latest state of a single Kafka table. The latest state is defined as
 the highest offset for every key.
+
+## DBT-core Github Actions
+
+### drop_ci_schema
+Drop a schema based on the schema and database parameters. This macro is used strictly in the CI jobs and is hard-coded to only work for schemas prefixed with DBT_CI_PR_ and databases suffixed with _TEST_DB. 
+
+Parameters:
+  - `schema`: Name of the schema to be dropped recursively.
+  - `database`: Name of the database containing the schema (defaults to target.database).
+
 
 Parameters:
   - `input_table`: The table to calculate the latest state for.
