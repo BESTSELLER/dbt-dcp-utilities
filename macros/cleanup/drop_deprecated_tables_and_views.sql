@@ -15,16 +15,21 @@
   {% set excluded_objects = dbt_dcp_utilities.get_exception_tables_views() %}
   {% set model_counter = [] %}
 
+  {# Precompute full names as dictionaries for O(1) lookups #}
+  {% set dbt_full_names = {} %}
+  {% set excluded_full_names = {} %}
+  {% for node in dbt_tables_and_views %}
+    {% do dbt_full_names.update({(node.schema.upper() ~ '.' ~ node.name.upper()): true}) %}
+  {% endfor %}
+  {% for excluded_object in excluded_objects %}
+    {% do excluded_full_names.update({(excluded_object.upper()): true}) %}
+  {% endfor %}
+
   {{ log( 'Starting to drop non-dbt tables and views. dry_run: ' ~ dry_run , info=true) }}
   {% for relation in all_tables_and_views %}
     {% if relation.schema not in dbt_sources_schemas and relation.schema not in excluded_schemas %}
-
-      {% set ns.existsInDbt = false %}
-      {% for node in dbt_tables_and_views %}
-        {% if (relation.schema.upper() == node.schema.upper() and relation.name.upper() == node.name.upper()) or ( relation.schema.upper() ~ '.' ~ relation.name.upper() in excluded_objects) %}
-          {% set ns.existsInDbt = true %}
-        {% endif %}
-      {% endfor %}
+      {% set relation_full_name = relation.schema.upper() ~ '.' ~ relation.name.upper() %}
+      {% set ns.existsInDbt = relation_full_name in dbt_full_names or relation_full_name in excluded_full_names %}
 
       {# Only drop objects that do not exist in dbt  #}
       {% if not ns.existsInDbt %}

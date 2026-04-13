@@ -6,17 +6,17 @@ macros:
       This macro will drop all tables and views from the database that are not referenced by dbt. 
       Objects in the target database belonging to schemas containing dbt sources will remain untouched by this operation.
       It can be run via __dbt run-operation drop_deprecated_tables_and_views --args '{dry_run: False}'__ . 
-      When run in dry_mode, this macro will return an error if there are any tables or views to be dropped, so that an alert can be set up on it.
+      When run in dry_run mode, this macro will return an error if there are any tables or views to be dropped, so that an alert can be set up on it.
     arguments: 
       - name: dry_run
-        description: Boolean. Set to false if you really want to drop the tables and views not controled by dbt.
+        description: Boolean. Set to false if you really want to drop the tables and views not controlled by dbt.
 
   - name: drop_empty_schemas
     description: >
       This macro checks all current database schemas and drops those that do not 
       contain any views or tables. It can be run via __dbt run-operation drop_empty_schemas --args '{dry_run: False}'__ .
       To be run after the [drop_deprecated_tables_and_views](/#!/macro/macro.bestseller_dna_cons_dbt.drop_deprecated_tables_and_views) macro.
-      When run in dry_mode, this macro will return an error if there are any tables or views to be dropped, so that an alert can be set up on it.
+      When run in dry_run mode, this macro will return an error if there are any tables or views to be dropped, so that an alert can be set up on it.
     arguments: 
       - name: dry_run
         description: Boolean. Set to false if you really want to drop the empty schemas. 

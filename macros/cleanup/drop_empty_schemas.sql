@@ -9,7 +9,6 @@
   {% set schema_results = run_query('SHOW SCHEMAS') %}
   {% set all_schemas = schema_results.columns[1].values() %}
   {% set excluded_schemas = get_exception_schemas() %}
-  {% set all_tables_and_views = [] %}
   {% set empty_schema_counter = [] %}
 
   {% for schema in all_schemas %}
