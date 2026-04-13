@@ -1,0 +1,52 @@
+version: 2 
+
+macros: 
+  - name: drop_deprecated_tables_and_views
+    description: >
+      This macro will drop all tables and views from the database that are not referenced by dbt. 
+      Objects in the target database belonging to schemas containing dbt sources will remain untouched by this operation.
+      It can be run via __dbt run-operation drop_deprecated_tables_and_views --args '{dry_run: False}'__ . 
+      When run in dry_mode, this macro will return an error if there are any tables or views to be dropped, so that an alert can be set up on it.
+    arguments: 
+      - name: dry_run
+        description: Boolean. Set to false if you really want to drop the tables and views not controled by dbt.
+
+  - name: drop_empty_schemas
+    description: >
+      This macro checks all current database schemas and drops those that do not 
+      contain any views or tables. It can be run via __dbt run-operation drop_empty_schemas --args '{dry_run: False}'__ .
+      To be run after the [drop_deprecated_tables_and_views](/#!/macro/macro.bestseller_dna_cons_dbt.drop_deprecated_tables_and_views) macro.
+      When run in dry_mode, this macro will return an error if there are any tables or views to be dropped, so that an alert can be set up on it.
+    arguments: 
+      - name: dry_run
+        description: Boolean. Set to false if you really want to drop the empty schemas. 
+
+  - name: get_all_tables_and_views
+    description: >
+      This macro returns a list of tables and views from the target databases as well as the schema name.
+      Snowflake's default metadata schema INFORMATION_SCHEMA is excluded.
+      The macro is used as input for the [drop_deprecated_tables_and_views](/#!/macro/macro.bestseller_dna_cons_dbt.drop_deprecated_tables_and_views) macro.
+
+  - name: get_dbt_nodes
+    description: >
+      This macro parses the dbt model graph and returns all tables and views.
+      Only models materialized as view, table or incremental and seeds are considered. 
+      Incremental models and seeds are treated as tables. 
+      The macro is used as input for the [drop_deprecated_tables_and_views](/#!/macro/macro.bestseller_dna_cons_dbt.drop_deprecated_tables_and_views) macro.
+
+  - name: get_dbt_sources_schemas
+    description: >
+      This macro returns a list of all database.schema names contained within the dbt model graph
+      for all sources, if the source exists in the _target_ database.
+      The macro is used as input for the [drop_deprecated_tables_and_views](/#!/macro/macro.bestseller_dna_cons_dbt.drop_deprecated_tables_and_views) macro.
+
+  - name: get_exception_schemas
+    description: >
+      This macro returns a list of all schemas that are supposed to be ignored when either the drop_deprecated_tables_and_views or the drop_empty_schemas macro is run. The list gets compiled from a seed file called 'cleanup_exceptions.csv'. If any objects are defined in that file, then the seed file from the dna-public-dbt-macros repo needs to be disabled in the project's dbt_project.yml file.
+      The macro is used as input for the [drop_deprecated_tables_and_views](/#!/macro/macro.bestseller_dna_cons_dbt.drop_deprecated_tables_and_views) macro.
+
+  - name: get_exception_tables_views
+    description: >
+      This macro returns a list of all table and view objects (incl schema name) that are supposed to be ignored when the drop_deprecated_tables_and_views macro is run. The list gets compiled from a seed file called 'cleanup_exceptions.csv'. If any objects are defined in that file, then the seed file from the dna-public-dbt-macros repo needs to be disabled in the project's dbt_project.yml file.
+      The macro is used as input for the [drop_deprecated_tables_and_views](/#!/macro/macro.bestseller_dna_cons_dbt.drop_deprecated_tables_and_views) macro.
+  

@@ -1,0 +1,18 @@
+version: 2 
+
+macros: 
+  - name: generate_schema_name
+    description: >
+      This macro will overwrite the dbt-core built-in macro for generating schema names. 
+      It wil instead generate environment-based schema names. When there is a custom schema name, 
+      it will create the schema with the custom name in production, 
+      and <default_name>_<custom_name> for all other environments. 
+      When there is no custom schema name, it will have the default name as schema name. 
+      Requirement is that the dbt project has set an environment variable `DBT_ENV_NAME` which is set to 
+      `prod` for the production enviornment.
+      dbtLabs' docs and thoughts about the macro can be found [here](https://docs.getdbt.com/docs/build/custom-schemas#changing-the-way-dbt-generates-a-schema-name).
+    arguments: 
+      - name: custom_schema_name
+        description: The configured value of schema in the specified node, or none if a value is not supplied.
+      - name: node
+        description: The node that is currently being processed by dbt.
