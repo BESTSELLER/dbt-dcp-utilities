@@ -27,7 +27,7 @@
 
   {{ log( 'Starting to drop non-dbt tables and views. dry_run: ' ~ dry_run , info=true) }}
   {% for relation in all_tables_and_views %}
-    {% if relation.schema not in dbt_sources_schemas and relation.schema not in excluded_schemas %}
+    {% if relation.schema.upper() not in dbt_sources_schemas and relation.schema.upper() not in excluded_schemas %}
       {% set relation_full_name = relation.schema.upper() ~ '.' ~ relation.name.upper() %}
       {% set ns.existsInDbt = relation_full_name in dbt_full_names or relation_full_name in excluded_full_names %}
 

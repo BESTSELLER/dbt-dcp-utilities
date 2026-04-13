@@ -5,7 +5,7 @@
   #}
 
   {% set excluded_schemas = [] %}
-  {% set exclude_schemas = dbt_utils.get_column_values(table=ref('cleanup_exceptions'), column='schema_name', where="object_type='schema'") %}
+  {% set exclude_schemas = dbt_utils.get_column_values(table=ref('cleanup_exceptions'), column='schema_name', where="lower(object_type)='schema'") %}
   {% if exclude_schemas %}
   {% for schema in exclude_schemas %}
     {% set msg ='Found schema in exceptions: ' ~ schema.upper() %}
