@@ -19,7 +19,7 @@ packages:
     revision: 0.1.0
 ```
 When you have done that, execute `dbt deps` in order to download the dependencies.
-This package uses v1.3.0 of dbt-utils - if you run into dependency conflicts you can probably solve this by using the newest version of dbt-utils.
+This package supports dbt-utils versions >=1.3.0,<2.0.0 - if you run into dependency conflicts you can probably solve this by using the newest supported version of dbt-utils.
 
 ## Kafka
 
